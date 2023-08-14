@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsService } = require('../../../src/services');
 const connection = require('../../../src/models/connection');
-const { findAllMockFromDB, findAllMock } = require('../mocks/productsModelMock');
+const { findAllMockFromDB, findAllMock } = require('../mocks/productsMock');
 
 // criar teste para id invalido
 describe('Testando a camada service de produtos', function () {
@@ -15,7 +15,7 @@ describe('Testando a camada service de produtos', function () {
 
   it('Testa se o service encontra o produto com id válido', async function () {
     sinon.stub(connection, 'execute').resolves(findAllMockFromDB);
-    const response = await productsService.findById(1);
+    const response = await productsService.findById(2);
     expect(response).to.be.an('object');
     expect(response).to.deep.equal(findAllMock[0]);
   });

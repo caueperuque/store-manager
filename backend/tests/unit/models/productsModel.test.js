@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 const connection = require('../../../src/models/connection');
-const { findAllMockFromDB, findAllMock } = require('../mocks/productsModelMock');
+const { findAllMockFromDB, findAllMock } = require('../mocks/productsMock');
 const { productsModel } = require('../../../src/models');
 
 describe('Testando a camada model de produtos', function () {
