@@ -1,20 +1,27 @@
 const sinon = require('sinon');
-const chai = require('chai');
+const { expect } = require('chai');
 const connection = require('../../../src/models/connection');
-const { allManagers } = require('../mocks/productsModelMock');
-const app = require('../../../src/app');
+const { findAllMockFromDB, findAllMock } = require('../mocks/productsModelMock');
+const { productsModel } = require('../../../src/models');
 
 describe('Testando o model de produtos', function () {
-  const { expect } = chai;
   beforeEach(function () {
-    sinon.stub(connection, 'execute').resolves(allManagers);
+    sinon.stub(connection, 'execute').resolves(findAllMockFromDB);
   });
 
   it('Testa se o model de produtos possui o método findAll', async function () {
-    const response = await chai.request(app).get('/products');
+    const response = await productsModel.findAll();
+    console.log(response[1]);
 
-    expect(response.status).to.be.equal(200);
-    expect(response.body).to.be.deep.equal(allManagers);
+    expect(response).to.deep.equal(findAllMock);
+    expect(response).to.be.an('array');
+  });
+
+  it('Testa se o model de produtos possui o método findById', async function () {
+    const response = await productsModel.findById(1);
+
+    expect(response).to.deep.equal(findAllMock[0]);
+    expect(response).to.be.an('object');
   });
 
   afterEach(function () {
