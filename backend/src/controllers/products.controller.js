@@ -12,7 +12,7 @@ const findById = async (req, res) => {
   const serviceResponse = await productsService.findById(id);
 
   if (serviceResponse.message === 'NOT_FOUND') {
-    return res.status(404).json({ message: 'Product Not Found' });
+    return res.status(404).json({ message: 'Product not found' });
   }
 
   res.status(200).json(serviceResponse);
