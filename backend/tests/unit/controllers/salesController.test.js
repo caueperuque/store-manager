@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
-const { allSales, allSalesFromDB, salesMockByIdFromDB, salesMockByIdFromModel } = require('../mocks/salesMock');
+const { allSalesFromDB, salesMockByIdFromDB } = require('../mocks/salesMock');
 
 describe('Testes na camada controller de sales', function () {
   it('Testa se a função findAll retorna o status 200', async function () {
