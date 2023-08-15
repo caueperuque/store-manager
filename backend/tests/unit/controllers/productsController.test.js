@@ -50,6 +50,23 @@ describe('Testando a camada controller de products', function () {
     expect(res.status.calledWith(404)).to.be.equal(true);
   });
 
+  it('Testa se a função create retorna um objeto', async function () {
+    sinon.stub(productsService, 'create').resolves(findByIdMockFromDB);
+    const req = {
+      body: {
+        name: 'teste',
+      },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await productsController.create(req, res);
+
+    expect(res.status.calledWith(201)).to.be.equal(true);
+  });
+
   afterEach(function () {
     sinon.restore();
   });
