@@ -4,7 +4,6 @@ const { productsService } = require('../../../src/services');
 const { findAllMock, findByIdMock, findByIdMockFromDB } = require('../mocks/productsMock');
 const { productsModel } = require('../../../src/models');
 
-// criar teste para id invalido
 describe('Testando a camada service de produtos', function () {
   it('Testa se ao chamar a função findAll, ele retorna todos produtos', async function () {
     sinon.stub(productsModel, 'findAll').resolves(findAllMock);

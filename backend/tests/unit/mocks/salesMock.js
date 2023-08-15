@@ -43,7 +43,35 @@ const allSalesFromDB = [
   null,
 ];
 
+const salesMockByIdFromDB = [
+  {
+    date: '2023-08-15T15:41:42.000Z',
+    productId: 1,
+    quantity: 5,
+  },
+  {
+    date: '2023-08-15T15:41:42.000Z',
+    productId: 2,
+    quantity: 10,
+  },
+];
+
+const salesMockByIdFromModel = [
+  {
+    date: '2023-08-15T15:41:42.000Z',
+    productId: 1,
+    quantity: 5,
+  },
+  {
+    date: '2023-08-15T15:41:42.000Z',
+    productId: 2,
+    quantity: 10,
+  },
+];
+
 module.exports = {
   allSalesFromDB,
   allSalesFromModel,
+  salesMockByIdFromDB,
+  salesMockByIdFromModel,
 };
