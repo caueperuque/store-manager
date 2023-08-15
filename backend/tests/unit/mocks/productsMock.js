@@ -34,10 +34,10 @@ const findByIdMock = {
   name: 'Martelo de Thor',
 };
 
-const findByIdMockFromDB = [{
+const findByIdMockFromDB = {
   id: 1,
   name: 'Martelo de Thor',
-}];
+};
 
 module.exports = {
   findAllMock,

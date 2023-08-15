@@ -2,27 +2,55 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsService } = require('../../../src/services');
 const connection = require('../../../src/models/connection');
-const { findAllMockFromDB, findAllMock } = require('../mocks/productsMock');
+const { findAllMockFromDB, findAllMock, findByIdMock, findByIdMockFromDB } = require('../mocks/productsMock');
+const { productsModel } = require('../../../src/models');
 
 // criar teste para id invalido
 describe('Testando a camada service de produtos', function () {
-  it('Testa se o service de produtos possui o método findAll', async function () {
+  // it('Testa se o service de produtos possui o método findAll', async function () {
+  //   const response = await productsService.findAll();
+  //   // console.log(response);
+  //   expect(response).to.be.an('array');
+  //   expect(response).to.deep.equal(findAllMock);
+  // });
+
+  // it('Testa se o service encontra o produto com id válido', async function () {
+  //   sinon.stub(connection, 'execute').resolves(findAllMockFromDB);
+  //   const response = await productsService.findById(2);
+  //   expect(response).to.be.an('object');
+  //   expect(response).to.deep.equal(findAllMock[0]);
+  // });
+
+  // it('Testa se o service me retorna uma menssagem de erro quando o id não é válido', async function () {
+  //   const response = await productsService.findById(4);
+  //   expect(response).to.have.property('message', 'NOT_FOUND');
+  // });
+
+  it('Testa se ao chamar a função findAll, ele retorna todos produtos', async function () {
+    sinon.stub(productsModel, 'findAll').resolves(findAllMock);
+
     const response = await productsService.findAll();
-    // console.log(response);
+
     expect(response).to.be.an('array');
     expect(response).to.deep.equal(findAllMock);
   });
 
-  it('Testa se o service encontra o produto com id válido', async function () {
-    sinon.stub(connection, 'execute').resolves(findAllMockFromDB);
-    const response = await productsService.findById(2);
+  it('Testa se ao chamar a função findById, ele retorna o produto com o id passado', async function () {
+    sinon.stub(productsModel, 'findById').resolves(findByIdMockFromDB);
+
+    const response = await productsService.findById(1);
+
     expect(response).to.be.an('object');
-    expect(response).to.deep.equal(findAllMock[0]);
+    expect(response).to.deep.equal(findByIdMock);
   });
 
-  it('Testa se o service me retorna uma menssagem de erro quando o id não é válido', async function () {
-    const response = await productsService.findById(4);
-    expect(response).to.have.property('message', 'NOT_FOUND');
+  it('Testa se ao chamar a função findById e não for encontrado um produto com o id retorna uma mensagem de erro', async function () {
+    sinon.stub(productsModel, 'findById').resolves();
+
+    const response = await productsService.findById(1124);
+
+    expect(response).to.be.an('object');
+    expect(response).to.deep.equal({ message: 'NOT_FOUND' });
   });
 
   afterEach(function () {
