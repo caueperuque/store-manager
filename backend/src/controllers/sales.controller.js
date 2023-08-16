@@ -16,10 +16,9 @@ const findById = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const { body } = req;
-  const sale = await salesService.create(body);
+  const { data } = await salesService.create(req.body);
   
-  res.status(201).json(sale);
+  res.status(201).json(data);
 };
 
 module.exports = {

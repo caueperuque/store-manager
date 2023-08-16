@@ -11,13 +11,10 @@ const findById = async (saleId) => {
   return sale;
 };
 
-const create = async (saleData) => {
-  const sale = await salesModel.create(saleData);
-  const obj = {
-    id: sale.insertId,
-    itemsSold: [...sale],
-  };
-  return obj;
+const create = async (sales) => {
+  const insertId = await salesModel.create(sales);
+  const data = { id: insertId, itemsSold: sales };
+  return { data };
 };
 
 module.exports = {
