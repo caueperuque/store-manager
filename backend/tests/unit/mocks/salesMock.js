@@ -69,9 +69,15 @@ const salesMockByIdFromModel = [
   },
 ];
 
+const salesCreateMockFromDB = 1;
+
+const salesCreateMockFromModel = 1;
+
 module.exports = {
   allSalesFromDB,
   allSalesFromModel,
   salesMockByIdFromDB,
   salesMockByIdFromModel,
+  salesCreateMockFromDB,
+  salesCreateMockFromModel,
 };

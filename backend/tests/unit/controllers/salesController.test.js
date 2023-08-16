@@ -45,6 +45,20 @@ describe('Testes na camada controller de sales', function () {
     expect(res.status.calledWith(404)).to.be.equal(true);
   });
 
+  it('Testa se a função create retorna o status 201', async function () {
+    sinon.stub(salesService, 'create').resolves({});
+
+    const req = { body: { products: [{ productId: 1, quantity: 1 }, { productId: 2, quantity: 5 }] } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await salesController.create(req, res);
+
+    expect(res.status.calledWith(201)).to.be.equal(true);
+  });
+
   afterEach(function () {
     sinon.restore();
   });

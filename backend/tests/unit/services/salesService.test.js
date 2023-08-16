@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { salesModel } = require('../../../src/models');
-const { allSalesFromDB, allSalesFromModel, salesMockByIdFromDB, salesMockByIdFromModel } = require('../mocks/salesMock');
+const { allSalesFromDB, allSalesFromModel, salesMockByIdFromDB, salesMockByIdFromModel, salesCreateMockFromDB, salesCreateMockFromModel } = require('../mocks/salesMock');
 const { salesService } = require('../../../src/services');
 
 describe('Testando a camada service de vendas', function () {
@@ -32,6 +32,12 @@ describe('Testando a camada service de vendas', function () {
     expect(response).to.be.an('object');
   });
 
+  it('Cadastrando uma venda com sucesso', async function () {
+    sinon.stub(salesModel, 'create').resolves(salesCreateMockFromModel);
+    const responseData = { id: salesCreateMockFromDB, itemsSold: [{ productId: 1, quantity: 1 }, { productId: 2, quantity: 5 }] };
+    const responseService = await salesService.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 5 }]);
+    expect(responseService.data).to.be.deep.equal(responseData);
+  });
   afterEach(function () {
     sinon.restore();
   });
