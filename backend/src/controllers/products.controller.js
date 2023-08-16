@@ -22,7 +22,6 @@ const create = async (req, res) => {
   const { name } = req.body;
 
   const serviceResponse = await productsService.create(name);
-  console.log(serviceResponse, 'oi');
 
   res.status(201).json(serviceResponse);
 };

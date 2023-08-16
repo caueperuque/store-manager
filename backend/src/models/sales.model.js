@@ -26,30 +26,25 @@ const findById = async (id) => {
   return sales;
 };
 
-const create = async (productId, quantity) => {
-  // pegar o id da sale e o id do produto e inserir na tabela sales_products
-  // sales product vou ter q rodar um loop pra inserir cada produto
-  // sales vou inserir apenas uma vez
-  // sales_products vou inserir a quantidade de produtos que eu tenho
-  const [salesP] = await connection.execute(
-    `
-    INSERT INTO sales_products (product_id, quantity) VALUES (?, ?);
-    `,
-    [productId, quantity],
+const create = async (saleData) => {
+  const [sale] = await connection.execute(
+    'INSERT INTO sales (date) VALUES (?)',
+    [new Date()],
   );
-  const [sales] = await connection.execute(
-    `
-    INSERT INTO sales (product_id, quantity) VALUES (?, ?);
-    `,
-    [productId, quantity],
-    );
-    const query = 'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);';
-    const promises = sales.map(({ productId, }))
-  return [salesP, sales];
-};
 
+  const inseredId = sale.insertId;
+
+  const salesProducts = saleData.map(({ productId, quantity }) => connection.execute(
+      'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+      [inseredId, productId, quantity],
+    ));
+  
+  console.log(salesProducts, sale);
+  return [sale, salesProducts];
+};
 
 module.exports = {
   findAll,
   findById,
+  create,
 };
