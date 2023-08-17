@@ -85,6 +85,21 @@ describe('Testando a camada controller de products', function () {
     expect(res.status.calledWith(200)).to.be.equal(true);
   });
 
+  it('Testa se a função remove funciona corretamente', async function () {
+    sinon.stub(productsService, 'remove').resolves();
+    const req = {
+      params: { id: 1 },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await productsController.remove(req, res);
+
+    expect(res.status.calledWith(204)).to.be.equal(true);
+  });
+
   afterEach(function () {
     sinon.restore();
   });

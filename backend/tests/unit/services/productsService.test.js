@@ -49,6 +49,14 @@ describe('Testando a camada service de produtos', function () {
     expect(response.id).to.deep.equal(1);
   });
 
+  it('Testa se ao chamar a função remove funciona corretamente', async function () {
+    sinon.stub(productsModel, 'remove')
+      .resolves();
+  
+    const response = await productsService.remove(1);
+    expect(response).to.be.equal(undefined);
+  });
+
   afterEach(function () {
     sinon.restore();
   });

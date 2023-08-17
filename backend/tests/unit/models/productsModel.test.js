@@ -40,6 +40,14 @@ describe('Testando a camada model de produtos', function () {
     expect(response).to.be.an('object');
   });
 
+  it('Testa se o model de produtos possui o método remove', async function () {
+    sinon.stub(connection, 'execute').resolves([]);
+
+    const response = await productsModel.remove(1);
+
+    expect(response).to.deep.equal();
+  });
+
   afterEach(function () {
     sinon.restore();
   });
