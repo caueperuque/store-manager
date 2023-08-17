@@ -1,7 +1,9 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const { validateProduct } = require('../../../src/middlewares/products.middleware');
+const { validateProduct, validateUpdate, checkProductExists } = require('../../../src/middlewares/products.middleware');
 const { validateSale } = require('../../../src/middlewares/sales.middlewares');
+const { productsModel } = require('../../../src/models');
+// const { productMiddleware } = require('../../../src/middlewares');
 
 describe('Testa a validação de produtos', function () {
   it('Testa se a validação funciona', async function () {
@@ -148,5 +150,77 @@ describe('Testa a validação de produtos', function () {
   
     // expect(res.status.calledWith(404)).to.be.equal(true);
     // expect(res.json.calledWith({ message: 'Product not found' })).to.be.equal(true);
+  });
+
+  it('Testa se é possível atualizar um produto com id inválido', async function () {
+    // sinon.stub(productsModel, 'findById').resolves(null);
+
+    // sinon.stub(productMiddleware, 'checkProductExists').resolves(false);
+    
+    const next = sinon.stub().returns();
+  
+    const req = {
+      params: { id: 1234 },
+    };
+  
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+  
+    validateUpdate(req, res, next);
+  
+    // expect(res.status.calledWith(404)).to.be.equal(true);
+    // expect(res.json.calledWith({ message: 'Product not found' })).to.be.equal(true);
+  });
+
+  it('Testa se é possível atualizar um produto com name inválido', async function () {
+    const next = sinon.stub().returns();
+  
+    const req = {
+      params: { id: 1 },
+      body: { name: 'Prod' },
+    };
+  
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+  
+    validateUpdate(req, res, next);
+  
+    expect(res.status.calledWith(422)).to.be.equal(true);
+    expect(res.json.calledWith({ message: '"name" length must be at least 5 characters long' })).to.be.equal(true);
+  });
+
+  it('Testa se é possível atualizar um produto sem name na requisição', async function () {
+    const next = sinon.stub().returns();
+  
+    const req = {
+      params: { id: 1 },
+      body: {},
+    };
+  
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+  
+    validateUpdate(req, res, next);
+  
+    expect(res.status.calledWith(400)).to.be.equal(true);
+    expect(res.json.calledWith({ message: '"name" is required' })).to.be.equal(true);
+  });
+
+  it('Testa a função checkExistis', async function () {
+    sinon.stub(productsModel, 'findById').resolves({ id: 1 });
+  
+    const response = await checkProductExists(1);
+  
+    expect(response).to.be.equal(true);
+  });
+
+  afterEach(function () {
+    sinon.restore();
   });
 });

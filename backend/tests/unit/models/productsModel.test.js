@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 const connection = require('../../../src/models/connection');
-const { findAllMockFromDB, findAllMock, createMockFromDB, createMockFromModel } = require('../mocks/productsMock');
+const { findAllMockFromDB, findAllMock, createMockFromDB, createMockFromModel, updateMockFromDB, updateMockFromModel } = require('../mocks/productsMock');
 const { productsModel } = require('../../../src/models');
 
 describe('Testando a camada model de produtos', function () {
@@ -28,6 +28,15 @@ describe('Testando a camada model de produtos', function () {
     const response = await productsModel.create('ProdutoX');
 
     expect([response]).to.deep.equal(createMockFromModel);
+    expect(response).to.be.an('object');
+  });
+
+  it('Testa se o model de produtos possui o método update', async function () {
+    sinon.stub(connection, 'execute').resolves([updateMockFromDB]);
+
+    const response = await productsModel.update(1, 'martelo do hulk');
+
+    expect(response).to.deep.equal(updateMockFromModel);
     expect(response).to.be.an('object');
   });
 

@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const chai = require('chai');
 
 const { expect } = chai;
-const { findAllMockFromDB, findByIdMockFromDB } = require('../mocks/productsMock');
+const { findAllMockFromDB, findByIdMockFromDB, updateMockFromDB } = require('../mocks/productsMock');
 const { productsController } = require('../../../src/controllers');
 const { productsService } = require('../../../src/services');
 
@@ -65,6 +65,24 @@ describe('Testando a camada controller de products', function () {
     await productsController.create(req, res);
 
     expect(res.status.calledWith(201)).to.be.equal(true);
+  });
+
+  it('Testa se a função update funciona corretamente', async function () {
+    sinon.stub(productsService, 'update').resolves([updateMockFromDB]);
+    const req = {
+      params: { id: 1 },
+      body: {
+        name: 'martelo do hulk',
+      },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await productsController.update(req, res);
+
+    expect(res.status.calledWith(200)).to.be.equal(true);
   });
 
   afterEach(function () {

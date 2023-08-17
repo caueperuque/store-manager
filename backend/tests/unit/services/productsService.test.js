@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsService } = require('../../../src/services');
-const { findAllMock, findByIdMock, findByIdMockFromDB, createMockFromDB } = require('../mocks/productsMock');
+const { findAllMock, findByIdMock, findByIdMockFromDB, createMockFromDB, updateMockFromDB } = require('../mocks/productsMock');
 const { productsModel } = require('../../../src/models');
 
 describe('Testando a camada service de produtos', function () {
@@ -38,6 +38,15 @@ describe('Testando a camada service de produtos', function () {
   
     const response = await productsService.create('ProdutoX');
     expect(response.name).to.deep.equal('ProdutoX');
+  });
+
+  it('Testa se ao chamar a função update funciona corretamente', async function () {
+    sinon.stub(productsModel, 'update')
+      .resolves([updateMockFromDB]);
+  
+    const response = await productsService.update(1, 'martelo do hulk');
+    expect(response.name).to.deep.equal('martelo do hulk');
+    expect(response.id).to.deep.equal(1);
   });
 
   afterEach(function () {

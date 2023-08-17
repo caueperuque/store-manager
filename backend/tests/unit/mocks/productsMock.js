@@ -49,6 +49,16 @@ const createMockFromModel = [{
   name: 'ProdutoX',
 }];
 
+const updateMockFromDB = {
+  id: 1,
+  name: 'martelo do hulk',
+};
+
+const updateMockFromModel = {
+  id: 1,
+  name: 'martelo do hulk',
+};
+
 module.exports = {
   findAllMock,
   findAllMockFromDB,
@@ -56,4 +66,6 @@ module.exports = {
   findByIdMockFromDB,
   createMockFromDB,
   createMockFromModel,
+  updateMockFromDB,
+  updateMockFromModel,
 };
